@@ -8514,7 +8514,8 @@ linux_panel() {
 	  echo -e "${gl_kjlan}77.  ${color77}迅雷離線下載工具${gl_kjlan}78.  ${color78}PandaWiki智能文檔管理系統"
 	  echo -e "${gl_kjlan}79.  ${color79}Beszel服務器監控${gl_kjlan}80.  ${color80}linkwarden書籤管理"
 	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}81.  ${color81}JitsiMeet視頻會議"
+	  echo -e "${gl_kjlan}81.  ${color81}JitsiMeet視頻會議${gl_kjlan}82.  ${color82}gpt-load高性能AI透明代理"
+	  echo -e "${gl_kjlan}83.  ${color83}komari服務器監控工具"
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}0.   ${gl_bai}返回主菜單"
 	  echo -e "${gl_kjlan}------------------------${gl_bai}"
@@ -10810,6 +10811,63 @@ linux_panel() {
 
 
 
+		  82)
+
+			local docker_name="gpt-load"
+			local docker_img="tbphp/gpt-load:latest"
+			local docker_port=8082
+
+			docker_rum() {
+
+				mkdir -p /home/docker/gpt-load && \
+				docker run -d --name gpt-load \
+					-p ${docker_port}:3001 \
+					-e AUTH_KEY=sk-123456 \
+					-v "/home/docker/gpt-load/data":/app/data \
+					tbphp/gpt-load:latest
+
+			}
+
+			local docker_describe="高性能AI接口透明代理服务"
+			local docker_url="官网介绍: https://www.gpt-load.com/"
+			local docker_use="echo \"默认管理密钥: sk-123456\""
+			local docker_passwd=""
+			local app_size="1"
+			docker_app
+
+			  ;;
+
+
+
+		  83)
+
+			local docker_name="komari"
+			local docker_img="ghcr.io/komari-monitor/komari:latest"
+			local docker_port=8083
+
+			docker_rum() {
+
+				mkdir -p /home/docker/komari && \
+				docker run -d \
+				  --name komari \
+				  -p ${docker_port}:25774 \
+				  -v /home/docker/komari:/app/data \
+				  -e ADMIN_USERNAME=admin \
+				  -e ADMIN_PASSWORD=1212156 \
+				  --restart=always \
+				  ghcr.io/komari-monitor/komari:latest
+
+			}
+
+			local docker_describe="轻量级的自托管服务器监控工具"
+			local docker_url="官网介绍: https://github.com/komari-monitor/komari/tree/main"
+			local docker_use="echo \"默认账号: admin  默认密码: 1212156\""
+			local docker_passwd=""
+			local app_size="1"
+			docker_app
+
+			  ;;
+
 
 		  0)
 			  kejilion
@@ -11400,6 +11458,8 @@ EOF
 					   # 賦予新用戶sudo權限
 					   echo "$new_username ALL=(ALL:ALL) ALL" | tee -a /etc/sudoers
 
+					   install sudo
+
 					   echo "操作已完成。"
 
 						  ;;
@@ -11407,6 +11467,8 @@ EOF
 					   read -e -p "請輸入用戶名:" username
 					   # 賦予新用戶sudo權限
 					   echo "$username ALL=(ALL:ALL) ALL" | tee -a /etc/sudoers
+
+					   install sudo
 						  ;;
 					  4)
 					   read -e -p "請輸入用戶名:" username
