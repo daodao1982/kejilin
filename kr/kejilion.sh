@@ -59,7 +59,7 @@ CheckFirstRun_true() {
 
 # 이 기능은 함수에 묻혀있는 정보를 수집하고 사용자가 사용하는 현재 스크립트 버전 번호, 사용 시간, 시스템 버전, CPU 아키텍처, 시스템 국가 및 기능 이름을 기록합니다. 민감한 정보는 포함되어 있지 않으니 걱정하지 마세요! 저를 믿어주세요!
 # 이 기능은 왜 설계되었나요? 그 목적은 사용자가 사용하고 싶어하는 기능을 더 잘 이해하고, 기능을 더욱 최적화하고 사용자 요구에 맞는 더 많은 기능을 출시하는 것입니다.
-# send_stats 함수 호출 위치에 대한 전문을 검색할 수 있습니다. 투명하고 오픈 소스입니다. 우려되는 사항이 있는 경우 이용을 거부하실 수 있습니다.
+# send_stats 함수 호출 위치에 대한 전문을 검색할 수 있습니다. 투명하고 오픈 소스입니다. 불편하신 점이 있으시면 이용을 거부하실 수 있습니다.
 
 
 
@@ -1127,7 +1127,7 @@ iptables_panel() {
 		  echo "3. 모든 포트를 엽니다. 4. 모든 포트를 닫습니다."
 		  echo "------------------------"
 		  echo "5. IP 화이트리스트 6. IP 블랙리스트"
-		  echo "7. 지정된 IP를 삭제합니다."
+		  echo "7. 지정된 IP 지우기"
 		  echo "------------------------"
 		  echo "11. PING 허용 12. PING 비활성화"
 		  echo "------------------------"
@@ -1298,7 +1298,7 @@ check_swap() {
 
 local swap_total=$(free -m | awk 'NR==3{print $2}')
 
-# 가상 메모리를 생성해야 하는지 결정
+# 가상 메모리를 만들어야 하는지 확인
 [ "$swap_total" -gt 0 ] || add_swap 1024
 
 
@@ -1530,10 +1530,10 @@ certs_status() {
 		echo -e "${gl_hong}알아채다:${gl_bai}인증서 신청이 실패했습니다. 다음 가능한 이유를 확인하고 다시 시도하십시오."
 		echo -e "1. 도메인 이름이 잘못 입력되었습니다. ➠ 도메인 이름이 올바르게 입력되었는지 확인하세요."
 		echo -e "2. DNS 확인 문제 ➠ 도메인 이름이 서버 IP로 올바르게 확인되었는지 확인"
-		echo -e "3. 네트워크 구성 문제 ➠ Cloudflare Warp 등 가상 네트워크를 사용하는 경우 일시적으로 종료하시기 바랍니다"
+		echo -e "3. 네트워크 구성 문제 ➠ Cloudflare Warp 등 가상 네트워크를 사용하는 경우 일시적으로 종료하세요."
 		echo -e "4. 방화벽 제한사항 ➠ 포트 80/443이 열려 있는지 확인하고 접근이 가능한지 확인하세요."
 		echo -e "5. 신청 횟수가 한도를 초과했습니다. ➠ Let's Encrypt에는 주간 한도(5회/도메인 이름/주)가 있습니다."
-		echo -e "6. 국내 등록 제한 ➠ 중국 ​​본토 환경의 경우 도메인 이름 등록 여부를 확인하세요."
+		echo -e "6. 국내 등록 제한 ➠ 중국 ​​본토 환경의 경우 도메인 이름 등록 여부를 확인하시기 바랍니다."
 		break_end
 		clear
 		echo "다시 배포해 보세요.$webname"
@@ -1754,7 +1754,7 @@ nginx_waf() {
 		return 1
 	fi
 
-	# nginx 이미지를 확인하고 그에 따라 처리하십시오.
+	# nginx 이미지를 확인하고 그에 따라 처리하세요.
 	if grep -q "kjlion/nginx:alpine" /home/web/docker-compose.yml; then
 		docker exec nginx nginx -s reload
 	else
@@ -1890,7 +1890,7 @@ nginx_br() {
 		return 1
 	fi
 
-	# nginx 이미지를 확인하고 그에 따라 처리하십시오.
+	# nginx 이미지를 확인하고 그에 따라 처리하세요.
 	if grep -q "kjlion/nginx:alpine" /home/web/docker-compose.yml; then
 		docker exec nginx nginx -s reload
 	else
@@ -1947,7 +1947,7 @@ nginx_zstd() {
 		return 1
 	fi
 
-	# nginx 이미지를 확인하고 그에 따라 처리하십시오.
+	# nginx 이미지를 확인하고 그에 따라 처리하세요.
 	if grep -q "kjlion/nginx:alpine" /home/web/docker-compose.yml; then
 		docker exec nginx nginx -s reload
 	else
@@ -2451,7 +2451,7 @@ check_docker_image_update() {
 	local hub_info=$(curl -s "https://hub.docker.com/v2/repositories/$image_repo/tags/$image_tag")
 	local last_updated=$(echo "$hub_info" | jq -r '.last_updated' 2>/dev/null)
 
-	# 획득한 시간을 확인
+	# 획득한 시간을 확인하세요.
 	if [[ -n "$last_updated" && "$last_updated" != "null" ]]; then
 		local container_created_ts=$(date -d "$container_created" +%s 2>/dev/null)
 		local last_updated_ts=$(date -d "$last_updated" +%s 2>/dev/null)
@@ -2749,7 +2749,7 @@ while true; do
 	 case $choice in
 		1)
 			check_disk_space $app_size
-			read -e -p "애플리케이션 외부 서비스 포트를 입력하고 Enter를 누르면 기본적으로 사용됩니다.${docker_port}포트:" app_port
+			read -e -p "애플리케이션 외부 서비스 포트를 입력하고 Enter 키를 누르면 기본적으로 사용됩니다.${docker_port}포트:" app_port
 			local app_port=${app_port:-${docker_port}}
 			local docker_port=$app_port
 
@@ -2862,7 +2862,7 @@ docker_app_plus() {
 		case $choice in
 			1)
 				check_disk_space $app_size
-				read -e -p "애플리케이션 외부 서비스 포트를 입력하고 Enter를 누르면 기본적으로 사용됩니다.${docker_port}포트:" app_port
+				read -e -p "애플리케이션 외부 서비스 포트를 입력하고 Enter 키를 누르면 기본적으로 사용됩니다.${docker_port}포트:" app_port
 				local app_port=${app_port:-${docker_port}}
 				local docker_port=$app_port
 				install jq
@@ -3193,7 +3193,7 @@ nginx_install_status() {
 
 ldnmp_web_on() {
 	  clear
-	  echo "당신의$webname건설되었습니다!"
+	  echo "당신의$webname지어졌습니다!"
 	  echo "https://$yuming"
 	  echo "------------------------"
 	  echo "$webname설치정보는 다음과 같습니다."
@@ -3202,7 +3202,7 @@ ldnmp_web_on() {
 
 nginx_web_on() {
 	  clear
-	  echo "당신의$webname건설되었습니다!"
+	  echo "당신의$webname지어졌습니다!"
 	  echo "https://$yuming"
 
 }
@@ -3628,7 +3628,7 @@ EOF
 
 	donlond_frp frps
 
-	# 생성된 정보 출력
+	# 생성된 정보를 출력
 	ip_address
 	echo "------------------------"
 	echo "클라이언트 배포에 필요한 매개변수"
@@ -3690,7 +3690,7 @@ remote_port = ${remote_port}
 
 EOF
 
-	# 생성된 정보 출력
+	# 생성된 정보를 출력
 	echo "제공하다$service_namefrpc.toml에 성공적으로 추가되었습니다."
 
 	docker restart frpc
@@ -3936,7 +3936,7 @@ frps_panel() {
 
 			8)
 				send_stats "IP 접근 차단"
-				echo "역방향 도메인 이름 접근을 가지고 있는 경우, 이 기능을 사용하면 IP+포트 접근을 차단할 수 있어 더욱 안전합니다."
+				echo "역방향 도메인 이름 접근이 있는 경우, 이 기능을 사용하면 IP+포트 접근을 차단할 수 있어 더욱 안전합니다."
 				read -e -p "차단할 포트를 입력하세요:" frps_port
 				block_host_port "$frps_port" "$ipv4_address"
 				;;
@@ -5053,7 +5053,7 @@ elrepo() {
 		  echo "영상 소개: https://www.bilibili.com/video/BV1mH4y1w7qA?t=529.2"
 		  echo "------------------------------------------------"
 		  echo "Red Hat 시리즈 배포판 CentOS/RedHat/Alma/Rocky/oracle만 지원"
-		  echo "Linux 커널을 업그레이드하면 시스템 성능과 보안이 향상될 수 있습니다. 가능하다면 시도해 보시고, 프로덕션 환경도 주의해서 업그레이드하시는 것을 추천드립니다!"
+		  echo "Linux 커널을 업그레이드하면 시스템 성능과 보안이 향상될 수 있습니다. 가능하다면 시도해 보시고, 프로덕션 환경을 주의해서 업그레이드하시는 것을 추천드립니다!"
 		  echo "------------------------------------------------"
 		  read -e -p "계속하시겠습니까? (예/아니요):" choice
 
@@ -5595,7 +5595,7 @@ linux_trash() {
 
 	clear
 	echo -e "현재 휴지통${trash_status}"
-	echo -e "활성화한 후에는 중요한 파일이 실수로 삭제되는 것을 방지하기 위해 rm으로 삭제된 파일이 먼저 휴지통에 들어갑니다!"
+	echo -e "활성화한 후에는 중요한 파일이 실수로 삭제되는 것을 방지하기 위해 rm으로 삭제된 파일이 먼저 휴지통에 저장됩니다!"
 	echo "------------------------------------------------"
 	ls -l --color=auto "$TRASH_DIR" 2>/dev/null || echo "휴지통이 비어 있습니다."
 	echo "------------------------"
@@ -5831,7 +5831,7 @@ add_connection() {
 			echo "주요 내용을 붙여넣으세요(붙인 후 Enter를 두 번 누르세요)."
 			local password_or_key=""
 			while IFS= read -r line; do
-				# 입력이 빈 줄이고 키 내용에 이미 시작 부분이 포함된 경우 입력을 종료합니다.
+				# 입력이 빈 줄이고 키 내용에 이미 시작 부분이 포함되어 있으면 입력을 종료합니다.
 				if [[ -z "$line" && "$password_or_key" == *"-----BEGIN"* ]]; then
 					break
 				fi
@@ -6113,7 +6113,7 @@ disk_manager() {
 	send_stats "하드디스크 관리 기능"
 	while true; do
 		clear
-		echo "하드 디스크 파티션 관리"
+		echo "하드 드라이브 파티션 관리"
 		echo -e "${gl_huang}이 기능은 내부 테스트 중이므로 프로덕션 환경에서는 사용하면 안 됩니다.${gl_bai}"
 		echo "------------------------"
 		list_partitions
@@ -8468,7 +8468,7 @@ linux_panel() {
 
 	  echo -e "${gl_kjlan}1.   ${color1}파고다 패널 공식 버전${gl_kjlan}2.   ${color2}aaPanel Pagoda 국제 버전"
 	  echo -e "${gl_kjlan}3.   ${color3}1패널 차세대 관리 패널${gl_kjlan}4.   ${color4}NginxProxyManager 시각화 패널"
-	  echo -e "${gl_kjlan}5.   ${color5}OpenList 다중 저장소 파일 목록 프로그램${gl_kjlan}6.   ${color6}Ubuntu 원격 데스크톱 웹 에디션"
+	  echo -e "${gl_kjlan}5.   ${color5}OpenList 다중 저장소 파일 목록 프로그램${gl_kjlan}6.   ${color6}Ubuntu 원격 데스크톱 웹 버전"
 	  echo -e "${gl_kjlan}7.   ${color7}나타 프로브 VPS 모니터링 패널${gl_kjlan}8.   ${color8}QB 오프라인 BT 자기 다운로드 패널"
 	  echo -e "${gl_kjlan}9.   ${color9}Poste.io 메일 서버 프로그램${gl_kjlan}10.  ${color10}RocketChat 다자간 온라인 채팅 시스템"
 	  echo -e "${gl_kjlan}------------------------"
@@ -8695,7 +8695,7 @@ linux_panel() {
 			  ;;
 		  7)
 			clear
-			send_stats "네자 빌드"
+			send_stats "나타 빌드"
 			local docker_name="nezha-dashboard"
 			local docker_port=8008
 			while true; do
@@ -8811,7 +8811,7 @@ linux_panel() {
 				case $choice in
 					1)
 						check_disk_space 2
-						read -e -p "이메일 도메인 이름을 설정하세요(예: mail.yuming.com):" yuming
+						read -e -p "이메일 도메인 이름을 설정하십시오(예: mail.yuming.com):" yuming
 						mkdir -p /home/docker
 						echo "$yuming" > /home/docker/mail.txt
 						echo "------------------------"
@@ -9179,7 +9179,7 @@ linux_panel() {
 				check_docker_app
 				clear
 				echo -e "썬더 풀 서비스$check_docker"
-				echo "레이치(Leichi)는 창팅테크놀로지가 개발한 WAF 사이트 방화벽 프로그램 패널로, 자동화된 방어를 위해 사이트를 반전시킬 수 있다."
+				echo "레이치(Leichi)는 창팅테크놀로지(Changting Technology)가 개발한 WAF 사이트 방화벽 프로그램 패널로, 자동화된 방어를 위해 사이트를 반전시킬 수 있다."
 				echo "영상 소개: https://www.bilibili.com/video/BV1mZ421T74c?t=0.1"
 				if docker ps -a --format '{{.Names}}' | grep -q "$docker_name" >/dev/null 2>&1; then
 					check_docker_app_ip
@@ -11082,7 +11082,7 @@ linux_Settings() {
 	  echo -e "${gl_kjlan}3.   ${gl_bai}ROOT 비밀번호 로그인 모드${gl_kjlan}4.   ${gl_bai}지정된 버전의 Python 설치"
 	  echo -e "${gl_kjlan}5.   ${gl_bai}모든 포트 열기${gl_kjlan}6.   ${gl_bai}SSH 연결 포트 수정"
 	  echo -e "${gl_kjlan}7.   ${gl_bai}DNS 주소 최적화${gl_kjlan}8.   ${gl_bai}한 번의 클릭으로 시스템을 다시 설치${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}9.   ${gl_bai}ROOT 계정을 비활성화하고 새 계정을 만듭니다.${gl_kjlan}10.  ${gl_bai}우선순위 ipv4/ipv6 전환"
+	  echo -e "${gl_kjlan}9.   ${gl_bai}ROOT 계정을 비활성화하고 새 계정을 만듭니다.${gl_kjlan}10.  ${gl_bai}우선 순위 ipv4/ipv6 전환"
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}11.  ${gl_bai}항만점유현황 확인${gl_kjlan}12.  ${gl_bai}가상 메모리 크기 수정"
 	  echo -e "${gl_kjlan}13.  ${gl_bai}사용자 관리${gl_kjlan}14.  ${gl_bai}사용자/비밀번호 생성기"
@@ -11550,7 +11550,7 @@ EOF
 				# 현재 시스템 시간대 가져오기
 				local timezone=$(current_timezone)
 
-				# 현재 시스템 시간 가져오기
+				# 현재 시스템 시간을 가져옵니다
 				local current_time=$(date +"%Y-%m-%d %H:%M:%S")
 
 				# 시간대 및 시간 표시
@@ -11900,7 +11900,7 @@ EOF
 				case "$Limiting" in
 				  1)
 					# 새 가상 메모리 크기 입력
-					echo "실제 서버에 트래픽이 100G만 있는 경우 임계값을 95G로 설정하고 미리 종료하여 트래픽 오류나 오버플로를 방지할 수 있습니다."
+					echo "실제 서버의 트래픽이 100G만 있는 경우 임계값을 95G로 설정하고 미리 종료하여 트래픽 오류나 오버플로를 방지할 수 있습니다."
 					read -e -p "인바운드 트래픽 임계값을 입력하십시오(단위는 G, 기본값은 100G)." rx_threshold_gb
 					rx_threshold_gb=${rx_threshold_gb:-100}
 					read -e -p "아웃바운드 트래픽 임계값을 입력하십시오(단위는 G, 기본값은 100G)." tx_threshold_gb
@@ -11990,7 +11990,7 @@ EOF
 			  root_use
 			  send_stats "전신 경고"
 			  echo "TG-bot 모니터링 및 조기경보 기능"
-			  echo "영상 소개: https://youtu.be/vLL-eb3Z_TY"
+			  echo "영상소개: https://youtu.be/vLL-eb3Z_TY"
 			  echo "------------------------------------------------"
 			  echo "로컬 CPU, 메모리, 하드 디스크, 트래픽 및 SSH 로그인에 대한 실시간 모니터링 및 경고를 달성하려면 경고를 수신하도록 tg 로봇 API 및 사용자 ID를 구성해야 합니다."
 			  echo "임계값에 도달하면 경고 메시지가 사용자에게 전송됩니다."
@@ -12130,7 +12130,7 @@ EOF
 			  echo "2. 시스템 정크 파일 정리"
 			  echo -e "3. 가상 메모리 설정${gl_huang}1G${gl_bai}"
 			  echo -e "4. SSH 포트 번호를 다음으로 설정합니다.${gl_huang}5522${gl_bai}"
-			  echo -e "5. 모든 포트를 엽니다"
+			  echo -e "5. 모든 포트를 엽니다."
 			  echo -e "6. 켜기${gl_huang}BBR${gl_bai}가속하다"
 			  echo -e "7. 시간대를 다음으로 설정합니다.${gl_huang}상하이${gl_bai}"
 			  echo -e "8. DNS 주소 자동 최적화${gl_huang}해외: 1.1.1.1 8.8.8.8 국내: 223.5.5.5${gl_bai}"
@@ -12582,7 +12582,7 @@ while true; do
 	  echo -e "${gl_kjlan}일괄적으로 작업 실행${gl_bai}"
 	  echo -e "${gl_kjlan}11. ${gl_bai}기술 사자 스크립트 설치${gl_kjlan}12. ${gl_bai}시스템 업데이트${gl_kjlan}13. ${gl_bai}시스템 청소"
 	  echo -e "${gl_kjlan}14. ${gl_bai}도커 설치${gl_kjlan}15. ${gl_bai}BBR3 설치${gl_kjlan}16. ${gl_bai}1G 가상 메모리 설정"
-	  echo -e "${gl_kjlan}17. ${gl_bai}시간대를 상하이로 설정${gl_kjlan}18. ${gl_bai}모든 포트 열기${gl_kjlan}51. ${gl_bai}사용자 정의 지시어"
+	  echo -e "${gl_kjlan}17. ${gl_bai}시간대를 상하이로 설정${gl_kjlan}18. ${gl_bai}모든 포트 열기${gl_kjlan}51. ${gl_bai}맞춤 지침"
 	  echo -e "${gl_kjlan}------------------------${gl_bai}"
 	  echo -e "${gl_kjlan}0.  ${gl_bai}메인 메뉴로 돌아가기"
 	  echo -e "${gl_kjlan}------------------------${gl_bai}"
@@ -12623,8 +12623,8 @@ while true; do
 		  5)
 			  clear
 			  send_stats "클러스터 복원"
-			  echo "귀하의 server.py를 업로드하고 업로드를 시작하려면 아무 키나 누르십시오!"
-			  echo -e "귀하의${gl_huang}servers.py${gl_bai}에 파일을 제출하다${gl_huang}/root/cluster/${gl_bai}복원 완료!"
+			  echo "server.py를 업로드하고 아무 키나 눌러 업로드를 시작하세요!"
+			  echo -e "업로드해주세요${gl_huang}servers.py${gl_bai}파일을 제출하다${gl_huang}/root/cluster/${gl_bai}복원 완료!"
 			  break_end
 			  ;;
 
@@ -12848,7 +12848,7 @@ echo -e "${gl_kjlan}p.   ${gl_bai}Eudemons Parlu 서버 오픈 스크립트"
 echo -e "${gl_kjlan}------------------------${gl_bai}"
 echo -e "${gl_kjlan}00.  ${gl_bai}스크립트 업데이트"
 echo -e "${gl_kjlan}------------------------${gl_bai}"
-echo -e "${gl_kjlan}0.   ${gl_bai}스크립트 종료"
+echo -e "${gl_kjlan}0.   ${gl_bai}종료 스크립트"
 echo -e "${gl_kjlan}------------------------${gl_bai}"
 read -e -p "선택사항을 입력하세요:" choice
 
@@ -12889,7 +12889,7 @@ echo "-------------------"
 echo "영상 소개: https://www.bilibili.com/video/BV1ib421E7it?t=0.1"
 echo "다음은 k 명령의 참조 사용 사례입니다."
 echo "시작 스크립트 k"
-echo "패키지 설치 k install nano wget | k 나노 wget 추가 | k는 나노 wget을 설치합니다."
+echo "패키지 설치 k install nano wget | k 나노 wget 추가 | k는 nano wget을 설치합니다."
 echo "패키지 제거 k 제거 nano wget | k 델 나노 wget | k 나노 wget 제거 | k 나노 wget 제거"
 echo "시스템 k 업데이트 업데이트 | k 업데이트"
 echo "클린 시스템 정크 k 클린 | 케이 깨끗하다"
@@ -12917,11 +12917,11 @@ echo "도커 컨테이너 관리 k 도커 ps |k 도커 컨테이너"
 echo "도커 이미지 관리 k docker img |k 도커 이미지"
 echo "LDNMP 사이트 관리 k web"
 echo "LDNMP 캐시 정리 k 웹 캐시"
-echo "WordPress k wp 설치 | k 워드프레스 | kwp xxx.com"
+echo "WordPress k wp 설치 | k 워드프레스 | k wp xxx.com"
 echo "역방향 프록시 설치 k fd |k rp |k 역방향 프록시 |k fd xxx.com"
 echo "로드 밸런싱 설치 k loadbalance |k 로드 밸런싱"
 echo "방화벽 패널 k fhq |k 방화벽"
-echo "포트 k 열기 ddk 8080 |k 포트 8080 열기"
+echo "포트 k 열기 DKdk 8080 |k 포트 8080 열기"
 echo "k 포트 닫기 gbdk 7800 |k 포트 7800 닫기"
 echo "릴리스 IP k fxip 127.0.0.0/8 |k 릴리스 IP 127.0.0.0/8"
 echo "IP 차단 k zzip 177.5.25.36 |k IP 177.5.25.36 차단"
